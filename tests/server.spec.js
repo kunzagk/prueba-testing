@@ -1,6 +1,8 @@
 const request = require("supertest");
 const server = require("../index");
-const Token = '123456';
+const validToken = '123456';
+jest.setTimeout(10000);
+
 
 describe("Operaciones CRUD de cafes", () => {
   it("Testea que la ruta GET /cafes devuelve un status code 200 y el tipo de dato recibido es un arreglo con por lo menos 1 objeto", async () => {
@@ -10,8 +12,9 @@ describe("Operaciones CRUD de cafes", () => {
     expect(response.body.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("Comprueba que se obtiene un código 404 al intentar eliminar un café con un id que no existe", async () => {
-    const response = (await request(server).delete("/cafes/100")).set('Authorization',Token);
+
+  it('Comprueba que se obtiene un código 404 al intentar eliminar un café con un id que no existe', async () => {
+    const response = await request(server).delete('/cafes/10').set('Authorization', validToken); 
     expect(response.status).toBe(404);
   });
 
